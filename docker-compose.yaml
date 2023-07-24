@@ -141,6 +141,7 @@ services:
   onecx-document-management-ui:
     image: ${DOCUMENT_MANAGEMENT_UI}
     environment:
+#        APP_BASE_HREF: /document-mgmt/
         ONECX_PORTAL_FAVORITES_DISABLED: "false"
         ONECX_PORTAL_FEEDBACK_DISABLED: "false"
         ONECX_PORTAL_SEARCH_DISABLED: "true"
@@ -152,6 +153,8 @@ services:
         ONECX_PORTAL_HELP_DISABLED: "true"
         TKIT_PORTAL_ID: "AIE"
         TKIT_PORTAL_THEME_SERVER_URL: "http://tkit-portal-server:8080"
+        KEYCLOAK_URL: http://keycloak-app/
+        KEYCLOAK_REALM: OneCX
     labels:
       - "traefik.http.services.onecx-document-management-ui.loadbalancer.server.port=8080"
       - "traefik.http.routers.onecx-document-management-ui.rule=Host(`onecx-document-management-ui`)"
