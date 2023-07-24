@@ -107,16 +107,14 @@ services:
       QUARKUS_DATASOURCE_JDBC_URL: "jdbc:postgresql://postgresdb:5432/documentmanagement?sslmode=disable"
       MP_JWT_VERIFY_ISSUER: http://keycloak-app/realms/OneCX
       MP_JWT_VERIFY_PUBLICKEY_LOCATION: http://keycloak-app:8080/realms/OneCX/protocol/openid-connect/certs/
-      MINIO_ACCESSKEY: minioadmin
-      MINIO_SECRETKEY: minioadmin
-      MINIO_URL: http://minio:9000
-      MINIO_BUCKET: test-bucket
-      MINIO_REGION: us-east-2
-
+      QUARKUS_OIDC_AUTH_SERVER_URL: http://keycloak-app:8080/realms/OneCX      
+      QUARKUS_MINIO_ACCESS_KEY: minioadmin
+      QUARKUS_MINIO_SECRET_KEY: minioadmin
+      QUARKUS_MINIO_URL: http://minio:9000
+      MINIO_BUCKET_FOLDER: test-bucket
+      QUARKUS_MINIO_REGION: us-east-2
     depends_on:
       postgresdb:
-        condition: service_healthy
-      minio:
         condition: service_healthy
     labels:
       - "traefik.http.services.onecx-document-management-svc.loadbalancer.server.port=8080"
@@ -133,8 +131,6 @@ services:
         TKITPORTALSERVER_MP_REST_URL: "http://tkit-portal-server:8080"
     depends_on:
       postgresdb:
-        condition: service_healthy
-      onecx-document-management-svc:
         condition: service_healthy
     labels:
       - "traefik.http.services.onecx-document-management-bff.loadbalancer.server.port=8080"
@@ -156,12 +152,6 @@ services:
         ONECX_PORTAL_HELP_DISABLED: "true"
         TKIT_PORTAL_ID: "AIE"
         TKIT_PORTAL_THEME_SERVER_URL: "http://tkit-portal-server:8080"
-
-    depends_on:
-      postgresdb:
-        condition: service_healthy
-      onecx-document-management-bff:
-        condition: service_healthy
     labels:
       - "traefik.http.services.onecx-document-management-ui.loadbalancer.server.port=8080"
       - "traefik.http.routers.onecx-document-management-ui.rule=Host(`onecx-document-management-ui`)"
@@ -198,6 +188,8 @@ services:
       - "test.property.minio.url=http://$${host:minio}:$${port:minio:9000}"
       - "test.property.minio.accesskey=my_access"
       - "test.property.minio.secretkey=my_secret"
+      - "traefik.http.services.minio.loadbalancer.server.port=9000"
+      - "traefik.http.routers.minio.rule=Host(`minio`)"           
     command:
       - server
       - /data
