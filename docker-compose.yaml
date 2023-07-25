@@ -163,21 +163,13 @@ services:
       QUARKUS_DATASOURCE_USERNAME: "documentmanagement"
       QUARKUS_DATASOURCE_PASSWORD: "documentmanagement"
       QUARKUS_DATASOURCE_JDBC_URL: "jdbc:postgresql://postgresdb:5432/documentmanagement?sslmode=disable"
-      MP_JWT_VERIFY_ISSUER: http://keycloak-app/realms/OneCX
-      MP_JWT_VERIFY_PUBLICKEY_LOCATION: http://keycloak-app/realms/OneCX/protocol/openid-connect/certs/
       QUARKUS_OIDC_AUTH_SERVER_URL: http://keycloak-app/realms/OneCX      
-#      QUARKUS_OIDC_ENABLED: "false"
       QUARKUS_MINIO_ACCESS_KEY: minioadmin
       QUARKUS_MINIO_SECRET_KEY: minioadmin
       QUARKUS_MINIO_URL: http://minio:9000
       MINIO_BUCKET_FOLDER: onecx-document-management
       QUARKUS_MINIO_REGION: us-east-2
       QUARKUS_TKIT_LOG_CONSOLE_JSON: 'false'
-      JSON_LOG_DISABLE: 'true'
-      KEYCLOAK_TOKEN_URL: http://keycloak-app/token
-      KEYCLOAK_URL: http://keycloak-app/
-      KEYCLOAK_REALM: OneCX
-      TOKEN_ROLE_CLAIM_NAME: realm_roles
       TKIT_LOG_JSON_ENABLED: 'false'      
     depends_on:
       postgresdb:
