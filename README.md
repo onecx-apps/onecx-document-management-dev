@@ -1,11 +1,6 @@
-# OneCX apps - local dev setup
+# OneCX apps - document-management-dev
 
 ## Before
-
-Make sure that .sh scripts in / directory are executable
-
-- e.g. `-rwxr-xr-x wait-for.sh`
-- if they are not executable, use the command `chmod +x <file>`
 
 ## Docker compose
 
@@ -16,7 +11,7 @@ Core infra elements:
 - `traefik` reverse proxy
 - `postgresdb` generic postgresql db
 - `keycloak-app` Access and Identity Management Tool (credentials are: admin/admin)
-- `wiremock` mock server to make the setup even more minimalistic
+
 
 Core app elements (optional):
 
