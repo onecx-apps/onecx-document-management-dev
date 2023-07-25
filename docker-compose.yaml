@@ -99,49 +99,11 @@ services:
     networks:
       - onecx-app
 
-  onecx-document-management-svc:
-    image: ${DOCUMENT_MANAGEMENT_SVC}
-    environment:
-      QUARKUS_DATASOURCE_USERNAME: "documentmanagement"
-      QUARKUS_DATASOURCE_PASSWORD: "documentmanagement"
-      QUARKUS_DATASOURCE_JDBC_URL: "jdbc:postgresql://postgresdb:5432/documentmanagement?sslmode=disable"
-      MP_JWT_VERIFY_ISSUER: http://keycloak-app/realms/OneCX
-      MP_JWT_VERIFY_PUBLICKEY_LOCATION: http://keycloak-app:8080/realms/OneCX/protocol/openid-connect/certs/
-      QUARKUS_OIDC_AUTH_SERVER_URL: http://keycloak-app:8080/realms/OneCX      
-      QUARKUS_MINIO_ACCESS_KEY: minioadmin
-      QUARKUS_MINIO_SECRET_KEY: minioadmin
-      QUARKUS_MINIO_URL: http://minio:9000
-      MINIO_BUCKET_FOLDER: test-bucket
-      QUARKUS_MINIO_REGION: us-east-2
-    depends_on:
-      postgresdb:
-        condition: service_healthy
-    labels:
-      - "traefik.http.services.onecx-document-management-svc.loadbalancer.server.port=8080"
-      - "traefik.http.routers.onecx-document-management-svc.rule=Host(`onecx-document-management-svc`)"
-    networks:
-      - onecx-app
-
-  onecx-document-management-bff:
-    image: ${DOCUMENT_MANAGEMENT_BFF}
-    environment:
-        DOCUMENTMGMT_MP_REST_URL: "http://onecx-document-management-svc:8080"
-        DOCUMENTMGMT_MP_REST_FORWARD_HEADERS: "true"
-        APM_MP_REST_URL: "http://apm:8080/tkit-apm-rs/v2"
-        TKITPORTALSERVER_MP_REST_URL: "http://tkit-portal-server:8080"
-    depends_on:
-      postgresdb:
-        condition: service_healthy
-    labels:
-      - "traefik.http.services.onecx-document-management-bff.loadbalancer.server.port=8080"
-      - "traefik.http.routers.onecx-document-management-bff.rule=Host(`onecx-document-management-bff`)"
-    networks:
-      - onecx-app
-      
   onecx-document-management-ui:
     image: ${DOCUMENT_MANAGEMENT_UI}
     environment:
-#        APP_BASE_HREF: /document-mgmt/
+        APP_BASE_HREF: /
+        BFF_URL: http://onecx-document-management-bff:8080/
         ONECX_PORTAL_FAVORITES_DISABLED: "false"
         ONECX_PORTAL_FEEDBACK_DISABLED: "false"
         ONECX_PORTAL_SEARCH_DISABLED: "true"
@@ -151,15 +113,79 @@ services:
         ONECX_PORTAL_SETTINGS_DISABLED: "true"
         ONECX_PORTAL_MY_ROLES_PERMISSIONS_DISABLED: "true"
         ONECX_PORTAL_HELP_DISABLED: "true"
-        TKIT_PORTAL_ID: "AIE"
-        TKIT_PORTAL_THEME_SERVER_URL: "http://tkit-portal-server:8080"
+        TKIT_PORTAL_ID: "ADMIN"
+        TKIT_PORTAL_THEME_SERVER_URL: "http://tkit-portal-server"
         KEYCLOAK_URL: http://keycloak-app/
         KEYCLOAK_REALM: OneCX
+        KEYCLOAK_TOKEN_URL: http://keycloak-app/token
+        MP_JWT_VERIFY_ISSUER: http://keycloak-app/realms/OneCX
+        MP_JWT_VERIFY_PUBLICKEY_LOCATION: http://keycloak-app/realms/OneCX/protocol/openid-connect/certs
+        TOKEN_ROLE_CLAIM_NAME: realm_roles
+#        QUARKUS_OIDC_AUTH_SERVER_URL: http://keycloak-app/realms/OneCX
     labels:
       - "traefik.http.services.onecx-document-management-ui.loadbalancer.server.port=8080"
       - "traefik.http.routers.onecx-document-management-ui.rule=Host(`onecx-document-management-ui`)"
     networks:
       - onecx-app
+
+
+  onecx-document-management-bff:
+    image: ${DOCUMENT_MANAGEMENT_BFF}
+    environment:
+        DOCUMENTMGMT_MP_REST_URL: "http://onecx-document-management-svc:8080"
+        DOCUMENTMGMT_MP_REST_FORWARD_HEADERS: "true"
+        APM_MP_REST_URL: "http://apm:8080/tkit-apm-rs/v2"
+        TKITPORTALSERVER_MP_REST_URL: "http://tkit-portal-server"
+        QUARKUS_TKIT_LOG_CONSOLE_JSON: 'false'
+        KEYCLOAK_TOKEN_URL: http://keycloak-app/token
+        KEYCLOAK_URL: http://keycloak-app/
+        KEYCLOAK_REALM: OneCX
+        MP_JWT_VERIFY_ISSUER: http://keycloak-app/realms/OneCX
+        MP_JWT_VERIFY_PUBLICKEY_LOCATION: http://keycloak-app/realms/OneCX/protocol/openid-connect/certs
+        TOKEN_ROLE_CLAIM_NAME: realm_roles
+        QUARKUS_OIDC_AUTH_SERVER_URL: http://keycloak-app/realms/OneCX
+        TKIT_LOG_JSON_ENABLED: 'false'
+    depends_on:
+      postgresdb:
+        condition: service_healthy
+    labels:
+      - "traefik.http.services.onecx-document-management-bff.loadbalancer.server.port=8080"
+      - "traefik.http.routers.onecx-document-management-bff.rule=Host(`onecx-document-management-bff`)"
+    networks:
+      - onecx-app
+
+  onecx-document-management-svc:
+    image: ${DOCUMENT_MANAGEMENT_SVC}
+    environment:
+      QUARKUS_DATASOURCE_USERNAME: "documentmanagement"
+      QUARKUS_DATASOURCE_PASSWORD: "documentmanagement"
+      QUARKUS_DATASOURCE_JDBC_URL: "jdbc:postgresql://postgresdb:5432/documentmanagement?sslmode=disable"
+      MP_JWT_VERIFY_ISSUER: http://keycloak-app/realms/OneCX
+      MP_JWT_VERIFY_PUBLICKEY_LOCATION: http://keycloak-app/realms/OneCX/protocol/openid-connect/certs/
+      QUARKUS_OIDC_AUTH_SERVER_URL: http://keycloak-app/realms/OneCX      
+      QUARKUS_MINIO_ACCESS_KEY: minioadmin
+      QUARKUS_MINIO_SECRET_KEY: minioadmin
+      QUARKUS_MINIO_URL: http://minio:9000
+      MINIO_BUCKET_FOLDER: test-bucket
+      QUARKUS_MINIO_REGION: us-east-2
+      QUARKUS_TKIT_LOG_CONSOLE_JSON: 'false'
+      JSON_LOG_DISABLE: 'true'
+      KEYCLOAK_TOKEN_URL: http://keycloak-app/token
+      KEYCLOAK_URL: http://keycloak-app/
+      KEYCLOAK_REALM: OneCX
+      TOKEN_ROLE_CLAIM_NAME: realm_roles
+      TKIT_LOG_JSON_ENABLED: 'false'      
+    depends_on:
+      postgresdb:
+        condition: service_healthy
+    labels:
+      - "traefik.http.services.onecx-document-management-svc.loadbalancer.server.port=8080"
+      - "traefik.http.routers.onecx-document-management-svc.rule=Host(`onecx-document-management-svc`)"
+    networks:
+      - onecx-app
+
+
+
 
   apm:
     image: ${APM}
