@@ -439,9 +439,60 @@
       ],
       "realmRoles": ["onecx-portal-user", "onecx-portal-admin", "onecx-admin", "document-admin"],
       "attributes": {
-        "tenantId": ["GFNW"]
+        "tenantId": ["TENENTID"]
       }
-    }
+    },
+    {
+      "username": "document_user",
+      "email": "document_user@org.com",
+      "firstName": "Max",
+      "lastName": "Keycloakmann",
+      "enabled": true,
+      "credentials": [
+        {
+          "type": "password",
+          "value": "onecx"
+        }
+      ],
+      "realmRoles": ["document-user", "onecx-portal-admin"],
+      "attributes": {
+        "tenantId": ["TENENTID"]
+      }
+    },
+    {
+      "username": "document_responsible",
+      "email": "document_responsible@org.com",
+      "firstName": "Max",
+      "lastName": "Keycloakmann",
+      "enabled": true,
+      "credentials": [
+        {
+          "type": "password",
+          "value": "onecx"
+        }
+      ],
+      "realmRoles": ["document-responsible", "onecx-portal-admin"],
+      "attributes": {
+        "tenantId": ["TENENTID"]
+      }
+    },
+    {
+      "username": "document_admin",
+      "email": "document_admin@org.com",
+      "firstName": "Max",
+      "lastName": "Keycloakmann",
+      "enabled": true,
+      "credentials": [
+        {
+          "type": "password",
+          "value": "onecx"
+        }
+      ],
+      "realmRoles": ["document-admin", "onecx-portal-admin"],
+      "attributes": {
+        "tenantId": ["TENENTID"]
+      }
+    }            
   ],
   "scopeMappings": [
     {

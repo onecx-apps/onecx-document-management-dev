@@ -1,6 +1,5 @@
 # OneCX apps - document-management-dev
 
-## Before
 
 ## Docker compose
 
@@ -22,10 +21,11 @@ Core app elements (optional):
 
 - `tkit-portal-server` Main MS for tkit portal applications, managing and storing informations about Portals and Users
 - `apm` MS which manages access and permissions for Portal users
+- `pgadmin` UI admin for Postgres, login as capgemini@capgemini.com/mysecretpassword
 
 Main document-management elements:
 
-- `pgadmin` UI admin for Postgres, login as capgemini@capgemini.com/mysecretpassword
+
 - `onecx-document-management-ui` UI application to perist data into configured databases from xls files
 - `onecx-document-management-bff` Backend For Frontend implementing logic accessing ui specific backend service 
 - `onecx-document-management-svc` Backend service implementing logic of persisting data into postgres dbs
@@ -61,7 +61,7 @@ Postgres server is automatically created with the necessary databases.
 
 PGAdmin
 - **URL** - http://pgadmin/
-- **User** - onecx@onecx.com
+- **User** - onecx@onecx.org
 - **Password** - password
 
 Keycloak db is populated with the following configuration:
@@ -83,8 +83,15 @@ Minio Server is started and a bucket 'onecx-document-management' is created.
 
 APM with document management specific permissions is started.
 
+
 Traefik - Dashboard
 - **URL** - http://traefik:8082/
+
+
+Onecx document management ui
+- **URL** - http://onecx-document-management-ui/
+- **User** - document_admin, document_responsible, document_user
+- **Password** - onecx
 
 
 

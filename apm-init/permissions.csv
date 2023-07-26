@@ -6,6 +6,3 @@ Create Document;DOCUMENT_MGMT#DOCUMENT_CREATE;x;x;;
 UploadAttachment Document;DOCUMENT_MGMT#DOCUMENT_UPLOAD;x;x;;
 Edit  Document;DOCUMENT_MGMT#DOCUMENT_EDIT;x;x;;
 Bulk  Document;DOCUMENT_MGMT#DOCUMENT_BULK;x;;;
-
-
-

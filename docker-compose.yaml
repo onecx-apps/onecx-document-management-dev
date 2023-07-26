@@ -42,7 +42,7 @@ services:
     image: ${PGADMIN}
     container_name: pgadmin
     environment:
-      PGADMIN_DEFAULT_EMAIL: onecx@onecx.com
+      PGADMIN_DEFAULT_EMAIL: onecx@onecx.org
       PGADMIN_DEFAULT_PASSWORD: password
     volumes:
       - ./pgadmin-init/servers.json:/pgadmin4/servers.json
