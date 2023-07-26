@@ -17,4 +17,6 @@ echo '# Waiting for pods to start before starting next...';
 time ${DOCKER_COMPOSE} up -d createbuckets onecx-document-management-ui onecx-document-management-bff onecx-document-management-svc
 echo '# Waiting for pods to start before starting next...';
 
+./setupApmPermissions.sh
+
 #END

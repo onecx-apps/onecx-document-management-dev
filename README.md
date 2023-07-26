@@ -6,11 +6,16 @@
 
 The docker compose in this repo currently contains:
 
+
+
+
 Core infra elements:
 
 - `traefik` reverse proxy
 - `postgresdb` generic postgresql db
 - `keycloak-app` Access and Identity Management Tool (credentials are: admin/admin)
+- `minio` Filestorage 
+
 
 
 Core app elements (optional):
@@ -18,11 +23,14 @@ Core app elements (optional):
 - `tkit-portal-server` Main MS for tkit portal applications, managing and storing informations about Portals and Users
 - `apm` MS which manages access and permissions for Portal users
 
-Some extra useful tooling (optional):
+Main document-management elements:
 
 - `pgadmin` UI admin for Postgres, login as capgemini@capgemini.com/mysecretpassword
-- `data-mgmt` Backend service implementing logic of persisting data into postgres dbs from xls files
-- `data-mgmt-ui` UI application to perist data into configured databases from xls files
+- `onecx-document-management-ui` UI application to perist data into configured databases from xls files
+- `onecx-document-management-bff` Backend For Frontend implementing logic accessing ui specific backend service 
+- `onecx-document-management-svc` Backend service implementing logic of persisting data into postgres dbs
+
+
 
 ## Hosts file
 
@@ -45,30 +53,40 @@ To initilize the app services execute first:
 
 - `./setup-environment.sh`
 
-Then run the services:
-
-- `docker-compose up -d`
-
-if you have docker compose v2:
-- 'docker compose up -d'
-
 In this mode the IDE is serving real authentication mechanism and real portal and apm server preloaded with test data
 
 ## Initial Data
 
 Postgres server is automatically created with the necessary databases.
 
+PGAdmin
+- **URL** - http://pgadmin/
+- **User** - onecx@onecx.com
+- **Password** - password
+
 Keycloak db is populated with the following configuration:
 
+- **URL** - http://keycloak-app/
 - **Realm** - OneCx
-- **Clients** - ping-angular-app-ui
+- **Clients** - onecx-document-management-ui
 - **User** - onecx
 - **Password** - onecx
 - **Roles assigned to the user** - [onecx-portal-admin, onecx-portal-user, onecx-admin, tkit-portal-admin]
 
 Automatic import of basic portal data into tkit-portal-server is enabled.
 
-The easiest way to add your own data into databases is to access data-mgmt-ui under `http://data-mgmt-ui:9091` From there, you can create your own database configuration and persist the data in the form of an .xls file that has the appropriate structure and filename prefix.
+Minio Server is started and a bucket 'onecx-document-management' is created.
+- **URL** - http://minio:9001/
+- **User** - minioadmin
+- **Password** - minioadmin
+
+
+APM with document management specific permissions is started.
+
+Traefik - Dashboard
+- **URL** - http://traefik:8082/
+
+
 
 ## App configurations
 
@@ -109,6 +127,21 @@ OR :
 ```json
   "KEYCLOAK_REALM": "OneCX",
   "KEYCLOAK_URL": "http://keycloak-app/",
-  "KEYCLOAK_CLIENT_ID": "ping-angular-app-ui",
+  "KEYCLOAK_CLIENT_ID": "onecx-document-management-ui",
   "TKIT_PORTAL_ID": "ADMIN",
 ```
+
+
+## Reset environment
+
+**shutdown env**
+- `docker compose down`
+- `docker rm -f $(docker ps -a -q)`
+- `docker volume rm $(docker volume ls -q)`
+**optional**
+- `docker system prune -a`
+
+**restart system**
+- `./setup-environment.sh`
+
+

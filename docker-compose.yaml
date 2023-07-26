@@ -3,6 +3,7 @@ services:
   ############## REVERSE-PROXY ################
   #############################################
   traefik:
+    container_name: traefik
     image: ${TRAEFIK}
     command: --api.insecure=true --providers.docker=true #Enables the web UI and tells Træfik to listen to docker
     ports:
@@ -18,6 +19,7 @@ services:
   #############################################
   postgresdb:
     image: ${POSTGRES}
+    container_name: postgresdb
     ports:
       - "5432:5432"
     environment:
@@ -38,9 +40,10 @@ services:
 
   pgadmin:
     image: ${PGADMIN}
+    container_name: pgadmin
     environment:
-      PGADMIN_DEFAULT_EMAIL: capgemini@capgemini.com
-      PGADMIN_DEFAULT_PASSWORD: mysecretpassword
+      PGADMIN_DEFAULT_EMAIL: onecx@onecx.com
+      PGADMIN_DEFAULT_PASSWORD: password
     volumes:
       - ./pgadmin-init/servers.json:/pgadmin4/servers.json
     depends_on:
@@ -57,6 +60,7 @@ services:
   #############################################
   keycloak-app:
     image: ${KEYCLOAK}
+    container_name: keycloak-app
     command:
       [
         "start-dev --import-realm",
@@ -80,6 +84,7 @@ services:
   #############################################
   tkit-portal-server:
     image: ${TKIT_PORTAL_SERVER}
+    container_name: tkit-portal-server
     environment:
       QUARKUS_DATASOURCE_USERNAME: tkit-portal-server
       QUARKUS_DATASOURCE_PASSWORD: tkit-portal-server
@@ -104,6 +109,7 @@ services:
 
   onecx-document-management-ui:
     image: ${DOCUMENT_MANAGEMENT_UI}
+    container_name: onecx-document-management-ui    
     environment:
         APP_BASE_HREF: /
         BFF_URL: http://onecx-document-management-bff:8080/
@@ -134,6 +140,7 @@ services:
 
   onecx-document-management-bff:
     image: ${DOCUMENT_MANAGEMENT_BFF}
+    container_name: onecx-document-management-bff    
     environment:
         DOCUMENTMGMT_MP_REST_URL: "http://onecx-document-management-svc:8080"
         DOCUMENTMGMT_MP_REST_FORWARD_HEADERS: "true"
@@ -147,7 +154,6 @@ services:
         MP_JWT_VERIFY_PUBLICKEY_LOCATION: http://keycloak-app/realms/OneCX/protocol/openid-connect/certs
         TOKEN_ROLE_CLAIM_NAME: realm_roles
         QUARKUS_OIDC_AUTH_SERVER_URL: http://keycloak-app/realms/OneCX
-#        QUARKUS_OIDC_ENABLED: "false"
     depends_on:
       postgresdb:
         condition: service_healthy
@@ -159,6 +165,7 @@ services:
 
   onecx-document-management-svc:
     image: ${DOCUMENT_MANAGEMENT_SVC}
+    container_name: onecx-document-management-svc
     environment:
       QUARKUS_DATASOURCE_USERNAME: "documentmanagement"
       QUARKUS_DATASOURCE_PASSWORD: "documentmanagement"
@@ -185,6 +192,7 @@ services:
 
   apm:
     image: ${APM}
+    container_name: apm
     environment:
       QUARKUS_DATASOURCE_USERNAME: apm
       QUARKUS_DATASOURCE_PASSWORD: apm

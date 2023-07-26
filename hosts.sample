@@ -1,11 +1,14 @@
 # add this to your hosts file 
-127.0.0.1 traefik
-127.0.0.1 postgresdb
-127.0.0.1 keycloak-app
-127.0.0.1 pgadmin
-127.0.0.1 wiremock
 
-127.0.0.1 tkit-portal-server
-127.0.0.1 apm
-127.0.0.1 data-mgmt
-127.0.0.1 data-mgmt-ui
+
+127.0.0.1       pgadmin
+127.0.0.1       postgresdb
+127.0.0.1       keycloak-app
+127.0.0.1       traefik
+127.0.0.1       tkit-portal-app
+127.0.0.1       onecx-document-management-ui
+127.0.0.1       onecx-document-management-bff
+127.0.0.1       onecx-document-management-svc
+127.0.0.1       tkit-portal-server
+127.0.0.1		tkit-apm
+127.0.0.1		wiremock

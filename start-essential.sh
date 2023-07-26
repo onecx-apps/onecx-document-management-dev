@@ -9,7 +9,7 @@ then
 fi
 	
 
-${DOCKER_COMPOSE} up -d traefik postgresdb pgadmin keycloak-app
+${DOCKER_COMPOSE} up -d traefik postgresdb pgadmin keycloak-app minio
 
 
 #end
