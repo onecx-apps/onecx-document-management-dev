@@ -177,7 +177,7 @@ services:
       MINIO_BUCKET_FOLDER: onecx-document-management
       QUARKUS_MINIO_REGION: us-east-2
       QUARKUS_TKIT_LOG_CONSOLE_JSON: 'false'
-      TKIT_LOG_JSON_ENABLED: 'false'      
+      TKIT_LOG_JSON_ENABLED: 'false'     
     depends_on:
       postgresdb:
         condition: service_healthy
