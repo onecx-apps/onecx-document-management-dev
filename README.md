@@ -21,7 +21,7 @@ Core app elements (optional):
 
 - `tkit-portal-server` Main MS for tkit portal applications, managing and storing informations about Portals and Users
 - `apm` MS which manages access and permissions for Portal users
-- `pgadmin` UI admin for Postgres, login as capgemini@capgemini.com/mysecretpassword
+- `pgadmin` UI admin for Postgres, login as onecx@onecx.org/password
 
 Main document-management elements:
 
@@ -72,8 +72,8 @@ Keycloak db is populated with the following configuration:
 - **URL** - http://keycloak-app/
 - **Realm** - OneCx
 - **Clients** - onecx-document-management-ui
-- **User** - onecx
-- **Password** - onecx
+- **User** - admin
+- **Password** - admin
 - **Roles assigned to the user** - [onecx-portal-admin, onecx-portal-user, onecx-admin, tkit-portal-admin]
 
 Automatic import of basic portal data into tkit-portal-server is enabled.
