@@ -39,7 +39,17 @@ Therefore, for each service you want to access, do add an entry to your hosts fi
 
 ## Usage
 
-### How to use it - mocked variant (A)
+### How to use it - with real app services started variant (A)
+
+To initilize the app services execute first:
+
+- `./setup-environment.sh`
+
+In this mode the IDE is serving real authentication mechanism and real portal and apm server preloaded with test data
+
+
+
+### How to use it - mocked variant (B)
 
 To run the essential services only and app services mocked execute:
 
@@ -47,13 +57,6 @@ To run the essential services only and app services mocked execute:
 
 In this mode the IDE is serving real authentication mechanism and hard-coded (see: ./wiremock-init) portal-server responses
 
-### How to use it - with real app services started variant (B)
-
-To initilize the app services execute first:
-
-- `./setup-environment.sh`
-
-In this mode the IDE is serving real authentication mechanism and real portal and apm server preloaded with test data
 
 ## Initial Data
 
