@@ -98,6 +98,62 @@ Onecx document management ui
 
 
 
+## Remote development with live 
+
+- build onecx-document-management-svc by after uncommenting the following block in onecx-document-management-svc/src/resources/application.properties:
+
+```
+#REMOTE DEVELOPMENT ONLY
+quarkus.package.type=mutable-jar
+quarkus.live-reload.password=changeit
+quarkus.live-reload.url=http://onecx-document-management-svc:80
+```
+
+afterwards build image
+
+`quarkus build`
+
+use the created image 'localhost/onecx-document-management-svc:999-SNAPSHOT' by changing image in onecx-document-management-dev/.env
+
+```
+#DOCUMENT_MANAGEMENT_SVC=ghcr.io/onecx-apps/onecx-document-management-svc:0.1.0-rc.11
+DOCUMENT_MANAGEMENT_SVC=localhost/onecx-document-management-svc:999-SNAPSHOT
+```
+
+comment in the env variable in docker-compose.yaml ->  onecx-document-management-svc:
+
+```
+      QUARKUS_LAUNCH_DEVMODE: 'true'
+```
+
+restart environment
+`./setup-environment.sh`
+
+in the logs of the onecx-document-management-svc docker image you should see 
+
+```
+2023-07-27 07:36:55,620 INFO  [io.quarkus] (Quarkus Main Thread) onecx-document-management-svc 999-SNAPSHOT on JVM (powered by Quarkus 2.16.7.Final) started in 5.741s. Listening on: http://0.0.0.0:8080
+2023-07-27 07:36:55,621 INFO  [io.quarkus] (Quarkus Main Thread) Profile dev activated. Live Coding activated.
+```
+
+
+run in you onecx-document-management-svc 
+
+`mvn quarkus:remote-dev`
+
+now you should see something like:
+
+```
+2023-07-27 09:46:25,227 INFO  [io.qua.ver.htt.dep.dev.HttpRemoteDevClient] (Remote dev client thread) Sending app/onecx-document-management-svc-999-SNAPSHOT.jar
+2023-07-27 09:46:25,235 INFO  [io.qua.ver.htt.dep.dev.HttpRemoteDevClient] (Remote dev client thread) Sending quarkus-run.jar
+2023-07-27 09:46:25,239 INFO  [io.qua.ver.htt.dep.dev.HttpRemoteDevClient] (Remote dev client thread) Connected to remote server
+```
+
+
+
+
+
+
 ## App configurations
 
 To configure your local applications to work together with services or mock from this compose, change the corresponding addresses of the dependent services in your local app, using only hostnames of the docker services.
