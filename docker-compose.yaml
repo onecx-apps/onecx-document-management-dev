@@ -179,6 +179,10 @@ services:
       QUARKUS_TKIT_LOG_CONSOLE_JSON: 'false'
       TKIT_LOG_JSON_ENABLED: 'false'
 #      QUARKUS_LAUNCH_DEVMODE: 'true'
+#      JAVA_ENABLE_DEBUG: true
+#      JAVA_DEBUG_PORT: '*:5005'
+#    ports:
+#      - "5005:5005"      
     depends_on:
       postgresdb:
         condition: service_healthy

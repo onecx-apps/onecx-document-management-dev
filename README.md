@@ -97,6 +97,22 @@ Onecx document management ui
 - **Password** - onecx
 
 
+## Remote debugging
+
+- comment in the env variable in docker-compose.yaml in container section 'onecx-document-management-svc'
+
+```
+      JAVA_ENABLE_DEBUG: true
+      JAVA_DEBUG_PORT: '*:5005'
+    ports:
+      - "5005:5005"
+```
+
+- restart environment
+`./setup-environment.sh`
+
+- connect your debugger using localhost port 5005
+
 
 ## Remote development with live 
 
@@ -104,14 +120,14 @@ Onecx document management ui
 
 ```
 #REMOTE DEVELOPMENT ONLY
-quarkus.package.type=mutable-jar
-quarkus.live-reload.password=changeit
-quarkus.live-reload.url=http://onecx-document-management-svc:80
+%dev.quarkus.package.type=mutable-jar
+%dev.quarkus.live-reload.password=changeit
+%dev.quarkus.live-reload.url=http://onecx-document-management-svc:80
 ```
 
 - afterwards build image
 
-`quarkus build`
+`quarkus build -Dquarkus.profile=dev`
 
 - use the created image 'localhost/onecx-document-management-svc:999-SNAPSHOT' by changing image in onecx-document-management-dev/.env
 
@@ -120,7 +136,7 @@ quarkus.live-reload.url=http://onecx-document-management-svc:80
 DOCUMENT_MANAGEMENT_SVC=localhost/onecx-document-management-svc:999-SNAPSHOT
 ```
 
-- comment in the env variable in docker-compose.yaml ->  onecx-document-management-svc:
+- comment in the env variable in docker-compose.yaml in container section 'onecx-document-management-svc'
 
 ```
       QUARKUS_LAUNCH_DEVMODE: 'true'
@@ -139,7 +155,7 @@ DOCUMENT_MANAGEMENT_SVC=localhost/onecx-document-management-svc:999-SNAPSHOT
 
 - run in you onecx-document-management-svc 
 
-`mvn quarkus:remote-dev`
+`mvn quarkus:remote-dev -Dquarkus.profile=dev -Ddebug=false`
 
 - now you should see something like:
 
@@ -150,10 +166,7 @@ DOCUMENT_MANAGEMENT_SVC=localhost/onecx-document-management-svc:999-SNAPSHOT
 ```
 
 
-any changes made in onecx-document-management-svc are now synced to the running docker application.
-
-
-
+- any changes made in onecx-document-management-svc are instantly synced to the running docker application.
 
 
 ## App configurations
