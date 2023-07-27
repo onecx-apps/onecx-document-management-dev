@@ -1,6 +1,13 @@
 # OneCX apps - document-management-dev
 
 
+## Prerequisite
+- install quarkus cli
+
+```
+https://quarkus.io/get-started/
+```
+
 ## Docker compose
 
 The docker compose in this repo currently contains:
