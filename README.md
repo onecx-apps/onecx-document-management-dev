@@ -114,7 +114,7 @@ Onecx document management ui
 - connect your debugger using localhost port 5005
 
 
-## Remote development with live 
+## Remote development with live update
 
 - build onecx-document-management-svc by after uncommenting the following block in onecx-document-management-svc/src/resources/application.properties:
 
