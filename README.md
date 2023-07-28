@@ -119,8 +119,31 @@ Onecx document management ui
 `./setup-environment.sh`
 
 - connect your debugger using localhost port 5005
+- eg visual studio code use launch.json like:
 
-
+```
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [     
+        {
+            "type": "java",
+            "name": "Local Debug (Attach Quarkus)",
+            "request": "attach",
+            "hostName": "localhost",
+            "port": 5005
+        },
+        {
+            "type": "java",
+            "name": "Launch Current File",
+            "request": "launch",
+            "mainClass": "${file}"
+        },
+    ]
+}
+```
 ## Remote development with live update
 
 - build onecx-document-management-svc by after uncommenting the following block in onecx-document-management-svc/src/resources/application.properties:
